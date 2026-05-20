@@ -63,7 +63,7 @@ export function createGetSingleImageHandler(getBucket, getFilesCollection) {
       const file = await filesCollection.findOne({ filename: req.query.name });
 
       if (!file) {
-        throw new AppError("file not found", 404, "FILE_NOT_FOUND");
+        throw new AppError("File not found", 404, "FILE_NOT_FOUND");
       }
 
       res.setHeader("Content-Type", file.contentType || "application/octet-stream");
