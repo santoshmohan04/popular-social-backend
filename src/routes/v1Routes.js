@@ -1,7 +1,12 @@
 import express from "express";
-import { createUploadImageHandler, createGetSingleImageHandler } from "../controllers/imageController.js";
+import {
+  createUploadImageHandler,
+  createGetSingleImageHandler
+} from "../controllers/imageController.js";
 import { getPosts, uploadPost } from "../controllers/postController.js";
 import { asyncHandler } from "../middleware/asyncHandler.js";
+import { validateBody } from "../middleware/validate.js";
+import { createPostSchema } from "../schemas/postSchema.js";
 
 export function createV1Router({ upload, getBucket, getFilesCollection }) {
   const router = express.Router();
@@ -14,8 +19,15 @@ export function createV1Router({ upload, getBucket, getFilesCollection }) {
   });
 
   router.post("/upload/image", ...createUploadImageHandler(upload, getBucket));
-  router.get("/images/single", createGetSingleImageHandler(getBucket, getFilesCollection));
-  router.post("/upload/post", asyncHandler(uploadPost));
+  router.get(
+    "/images/single",
+    createGetSingleImageHandler(getBucket, getFilesCollection)
+  );
+  router.post(
+    "/upload/post",
+    validateBody(createPostSchema),
+    asyncHandler(uploadPost)
+  );
   router.get("/posts", asyncHandler(getPosts));
 
   return router;

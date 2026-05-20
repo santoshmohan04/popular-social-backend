@@ -1,6 +1,11 @@
 import multer from "multer";
 
-const allowedMimeTypes = new Set(["image/jpeg", "image/png", "image/webp", "image/gif"]);
+const allowedMimeTypes = new Set([
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/gif"
+]);
 
 export function createUploadMiddleware({ maxUploadSizeMb }) {
   return multer({

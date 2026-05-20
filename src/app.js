@@ -4,7 +4,13 @@ import { createV1Router } from "./routes/v1Routes.js";
 import { notFoundHandler, errorHandler } from "./middleware/errorHandler.js";
 import { applySecurityMiddleware } from "./middleware/security.js";
 
-export function createApp({ upload, getBucket, getFilesCollection, allowedOrigins }) {
+export function createApp({
+  upload,
+  getBucket,
+  getFilesCollection,
+  allowedOrigins,
+  getDbStatus
+}) {
   const app = express();
 
   app.use(bodyParser.json());
@@ -19,6 +25,26 @@ export function createApp({ upload, getBucket, getFilesCollection, allowedOrigin
       success: true,
       data: {
         status: "ok"
+      }
+    });
+  });
+
+  app.get("/ready", (req, res) => {
+    const dbReady = getDbStatus ? getDbStatus() : false;
+    if (!dbReady) {
+      return res.status(503).json({
+        success: false,
+        error: {
+          code: "NOT_READY",
+          message: "Service is not ready"
+        }
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {
+        status: "ready"
       }
     });
   });
