@@ -1,8 +1,5 @@
 import mongoose from "mongoose";
-import Grid from "gridfs-stream";
 import { logger } from "./logger.js";
-
-Grid.mongo = mongoose.mongo;
 
 export async function initializeDatabase({ connectionUrl, pusherClient }) {
   await mongoose.connect(connectionUrl);
@@ -17,16 +14,14 @@ export async function initializeDatabase({ connectionUrl, pusherClient }) {
     }
   });
 
-  const imageConnection = mongoose.createConnection(connectionUrl);
-  await new Promise((resolve, reject) => {
-    imageConnection.once("open", resolve);
-    imageConnection.once("error", reject);
+  const bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
+    bucketName: "images"
   });
 
-  logger.info("DB connected for GridFS");
+  logger.info("DB connected for GridFS bucket");
 
-  const gfs = Grid(imageConnection.db, mongoose.mongo);
-  gfs.collection("images");
-
-  return { gfs };
+  return {
+    bucket,
+    filesCollection: mongoose.connection.db.collection("images.files")
+  };
 }

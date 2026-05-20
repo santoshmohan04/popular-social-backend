@@ -9,19 +9,19 @@ export async function startServer() {
   validateEnv();
 
   const pusherClient = createPusherClient(env.pusher);
-  const { gfs } = await initializeDatabase({
+  const { bucket, filesCollection } = await initializeDatabase({
     connectionUrl: env.dbConn,
     pusherClient
   });
 
   const upload = createUploadMiddleware({
-    connectionUrl: env.dbConn,
     maxUploadSizeMb: env.maxUploadSizeMb
   });
 
   const app = createApp({
     upload,
-    getGfs: () => gfs,
+    getBucket: () => bucket,
+    getFilesCollection: () => filesCollection,
     allowedOrigins: env.corsOrigins
   });
 

@@ -18,5 +18,9 @@ export function errorHandler(err, req, res, next) {
     message
   });
 
+  if (next) {
+    // no-op to satisfy middleware signature for linters
+  }
+
   res.status(statusCode).json(errorResponse(message, code));
 }

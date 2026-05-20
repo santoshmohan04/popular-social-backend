@@ -4,7 +4,7 @@ import { createV1Router } from "./routes/v1Routes.js";
 import { notFoundHandler, errorHandler } from "./middleware/errorHandler.js";
 import { applySecurityMiddleware } from "./middleware/security.js";
 
-export function createApp({ upload, getGfs, allowedOrigins }) {
+export function createApp({ upload, getBucket, getFilesCollection, allowedOrigins }) {
   const app = express();
 
   app.use(bodyParser.json());
@@ -23,7 +23,14 @@ export function createApp({ upload, getGfs, allowedOrigins }) {
     });
   });
 
-  app.use("/api/v1", createV1Router({ upload, getGfs }));
+  app.use(
+    "/api/v1",
+    createV1Router({
+      upload,
+      getBucket,
+      getFilesCollection
+    })
+  );
 
   app.use(notFoundHandler);
   app.use(errorHandler);

@@ -10,7 +10,8 @@ function createTestApp() {
 
   return createApp({
     upload,
-    getGfs: () => null,
+    getBucket: () => null,
+    getFilesCollection: () => null,
     allowedOrigins: ["http://localhost:3000"]
   });
 }

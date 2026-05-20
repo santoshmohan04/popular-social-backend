@@ -3,7 +3,7 @@ import { createUploadImageHandler, createGetSingleImageHandler } from "../contro
 import { getPosts, uploadPost } from "../controllers/postController.js";
 import { asyncHandler } from "../middleware/asyncHandler.js";
 
-export function createV1Router({ upload, getGfs }) {
+export function createV1Router({ upload, getBucket, getFilesCollection }) {
   const router = express.Router();
 
   router.get("/", (req, res) => {
@@ -13,8 +13,8 @@ export function createV1Router({ upload, getGfs }) {
     });
   });
 
-  router.post("/upload/image", ...createUploadImageHandler(upload));
-  router.get("/images/single", createGetSingleImageHandler(getGfs));
+  router.post("/upload/image", ...createUploadImageHandler(upload, getBucket));
+  router.get("/images/single", createGetSingleImageHandler(getBucket, getFilesCollection));
   router.post("/upload/post", asyncHandler(uploadPost));
   router.get("/posts", asyncHandler(getPosts));
 
