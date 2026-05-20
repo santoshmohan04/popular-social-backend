@@ -108,7 +108,7 @@ Best for minimal disruption and gradual migration.
 
 ## 6) Data and storage modernization
 - Evolve current `posts` schema:
-  - Use proper timestamp types (ISO 8601 format) instead of plain string.
+  - Store timestamps as `Date` values in MongoDB schema (serialize as ISO 8601 in API responses) instead of plain string.
   - Add ownership fields, status/moderation fields, and metadata.
 - Consider media strategy:
   - Keep GridFS short-term, evaluate object storage (S3/GCS) for scale.
