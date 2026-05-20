@@ -2,12 +2,19 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const requiredVariables = ["DB_CONN", "PUSHER_ID", "PUSHER_KEY", "PUSHER_SECRET"];
+const requiredVariables = [
+  "DB_CONN",
+  "PUSHER_ID",
+  "PUSHER_KEY",
+  "PUSHER_SECRET"
+];
 
 export function validateEnv() {
   const missingVariables = requiredVariables.filter((key) => !process.env[key]);
   if (missingVariables.length > 0) {
-    throw new Error(`Missing required environment variables: ${missingVariables.join(", ")}`);
+    throw new Error(
+      `Missing required environment variables: ${missingVariables.join(", ")}`
+    );
   }
 }
 

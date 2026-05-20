@@ -1,6 +1,7 @@
 # App Context: Backend Modernization (popular-social-backend)
 
 ## 1) Current application context (as-is)
+
 - Runtime: Node.js backend with Express-style API (`server.js`).
 - Data layer: MongoDB + Mongoose.
 - File storage: GridFS (`multer-gridfs-storage`, `gridfs-stream`) for image uploads.
@@ -15,6 +16,7 @@
 ---
 
 ## 2) Modernization goals
+
 - Upgrade backend to current Node.js and API engineering standards.
 - Make APIs frontend-ready for modern apps (web/mobile, typed clients, pagination, auth, realtime).
 - Improve maintainability, reliability, and security.
@@ -25,14 +27,18 @@
 ## 3) Recommended framework direction
 
 ### Option A (recommended): **NestJS + TypeScript**
+
 Best for long-term scaling and maintainability.
+
 - Built-in modular architecture (controllers/services/modules).
 - First-class validation, DI, guards/interceptors, and testing patterns.
 - Easy OpenAPI generation and strong TypeScript contracts.
 - Works with Mongoose or Prisma.
 
 ### Option B: **Express + TypeScript (incremental path)**
+
 Best for minimal disruption and gradual migration.
+
 - Keep current Express style but enforce modern standards.
 - Add structured layers (routes/controllers/services/repositories).
 - Add validation, typed DTOs, OpenAPI, test and CI standards.
@@ -42,6 +48,7 @@ Best for minimal disruption and gradual migration.
 ## 4) Backend capabilities needed for modern frontend apps
 
 ### Core API patterns
+
 - API versioning (`/api/v1/...`).
 - Cursor-based pagination + filtering + sorting for feed endpoints.
 - Consistent response envelope and error schema.
@@ -49,12 +56,14 @@ Best for minimal disruption and gradual migration.
 - Contract-first APIs with OpenAPI/Swagger.
 
 ### Authentication & identity
+
 - JWT-based auth (access + refresh token strategy).
 - Social auth readiness (Google/Apple/etc.) if required by product.
 - Role/permission model (RBAC) for admin/moderation.
 - Secure password storage and account recovery flows.
 
 ### Social/feed APIs to add or improve
+
 - User profile CRUD.
 - Follow/unfollow relationships.
 - Post CRUD with media metadata.
@@ -67,6 +76,7 @@ Best for minimal disruption and gradual migration.
 - Moderation/reporting endpoints.
 
 ### Realtime & async
+
 - Realtime feed/notification updates via WebSocket (or keep Pusher with cleaner event contracts).
 - Background jobs for media processing, notifications, and fan-out.
 - Queue infrastructure (BullMQ + Redis or equivalent).
@@ -76,22 +86,26 @@ Best for minimal disruption and gradual migration.
 ## 5) Engineering standards to adopt
 
 ### Code quality
+
 - TypeScript strict mode.
 - ESLint + Prettier + import/order rules.
 - Conventional commit conventions.
 - Clear folder structure by domain/module.
 
 ### Validation & contracts
+
 - Request/response DTO validation (`zod` / `class-validator`).
 - OpenAPI spec generation and publishing.
 - Typed API clients for frontend consumption.
 
 ### Observability
+
 - Structured logging (Pino/Winston) with request correlation IDs.
 - Metrics + health endpoints (`/health`, `/ready`).
 - Centralized error tracking (e.g., Sentry).
 
 ### Security best practices
+
 - Helmet, CORS allowlist, input sanitization, and rate limiting.
 - Auth hardening (token expiry, rotation, revoke strategy).
 - Secrets via environment management (no secrets in code).
@@ -99,6 +113,7 @@ Best for minimal disruption and gradual migration.
 - File upload hardening (MIME checks, size limits, antivirus scanning if needed).
 
 ### Performance & reliability
+
 - DB indexing strategy for feed and lookup patterns.
 - Caching strategy (Redis) for hot reads.
 - Proper timeout/retry/circuit-breaker for external calls.
@@ -107,6 +122,7 @@ Best for minimal disruption and gradual migration.
 ---
 
 ## 6) Data and storage modernization
+
 - Evolve current `posts` schema:
   - Store timestamps as `Date` values in MongoDB schema (serialize as ISO 8601 in API responses) instead of plain string.
   - Add ownership fields, status/moderation fields, and metadata.
@@ -117,6 +133,7 @@ Best for minimal disruption and gradual migration.
 ---
 
 ## 7) Suggested target architecture
+
 - `src/modules/*` domain modules (users, auth, posts, comments, notifications).
 - `src/common/*` shared concerns (errors, middleware, config, logging).
 - `src/infrastructure/*` db, queue, cache, storage adapters.
@@ -128,6 +145,7 @@ Best for minimal disruption and gradual migration.
 ## 8) Delivery roadmap (phased)
 
 ### Phase 1: Foundation
+
 - Recreate missing project manifest and scripts (`package.json`).
 - Standardize Node version and environment config.
 - Add lint, format, and test baseline.
@@ -135,17 +153,20 @@ Best for minimal disruption and gradual migration.
 - Add API versioning and centralized error handling.
 
 ### Phase 2: API modernization
+
 - Implement auth/token flow and protected routes.
 - Introduce DTO validation and OpenAPI docs.
 - Add pagination/filter/sort standards across list endpoints.
 - Implement consistent response/error contracts.
 
 ### Phase 3: Social features for frontend
+
 - Build likes/comments/follows/notifications/search APIs.
 - Improve post/media lifecycle and moderation endpoints.
 - Add realtime strategy and async jobs.
 
 ### Phase 4: Production readiness
+
 - CI/CD gates (lint, test, security scan).
 - Monitoring/alerts/logging maturity.
 - Load/performance testing and optimization.
@@ -153,6 +174,7 @@ Best for minimal disruption and gradual migration.
 ---
 
 ## 9) Definition of done for “latest standards”
+
 - Type-safe codebase with validated API contracts.
 - Secure-by-default API middleware and auth flows.
 - Automated lint/test/security checks in CI.

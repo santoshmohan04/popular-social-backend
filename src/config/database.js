@@ -10,7 +10,9 @@ export async function initializeDatabase({ connectionUrl, pusherClient }) {
     if (change.operationType === "insert") {
       pusherClient
         .trigger("posts", "inserted", { change })
-        .catch((error) => logger.error("Error triggering pusher", { error: error.message }));
+        .catch((error) =>
+          logger.error("Error triggering pusher", { error: error.message })
+        );
     }
   });
 

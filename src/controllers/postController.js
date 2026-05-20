@@ -16,6 +16,16 @@ export async function uploadPost(req, res) {
 }
 
 export async function getPosts(req, res) {
-  const posts = await postService.listPosts();
-  res.status(200).json(successResponse(posts.map((post) => serializePost(post.toObject()))));
+  const { page, limit, sort } = req.query;
+  const { posts, pagination } = await postService.listPosts({
+    page,
+    limit,
+    sort
+  });
+
+  res.status(200).json({
+    success: true,
+    data: posts.map((post) => serializePost(post.toObject())),
+    pagination
+  });
 }

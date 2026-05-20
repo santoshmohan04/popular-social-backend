@@ -30,7 +30,11 @@ export function createUploadImageHandler(upload, getBucket) {
       try {
         const bucket = getBucket();
         if (!bucket) {
-          throw new AppError("Image store is unavailable", 503, "IMAGE_STORE_UNAVAILABLE");
+          throw new AppError(
+            "Image store is unavailable",
+            503,
+            "IMAGE_STORE_UNAVAILABLE"
+          );
         }
 
         if (!req.file) {
@@ -57,7 +61,11 @@ export function createGetSingleImageHandler(getBucket, getFilesCollection) {
       const filesCollection = getFilesCollection();
 
       if (!bucket || !filesCollection) {
-        throw new AppError("Image store is unavailable", 503, "IMAGE_STORE_UNAVAILABLE");
+        throw new AppError(
+          "Image store is unavailable",
+          503,
+          "IMAGE_STORE_UNAVAILABLE"
+        );
       }
 
       const file = await filesCollection.findOne({ filename: req.query.name });
@@ -66,7 +74,10 @@ export function createGetSingleImageHandler(getBucket, getFilesCollection) {
         throw new AppError("File not found", 404, "FILE_NOT_FOUND");
       }
 
-      res.setHeader("Content-Type", file.contentType || "application/octet-stream");
+      res.setHeader(
+        "Content-Type",
+        file.contentType || "application/octet-stream"
+      );
       const readstream = bucket.openDownloadStreamByName(file.filename);
       readstream.on("error", (streamError) => next(streamError));
       readstream.pipe(res);
