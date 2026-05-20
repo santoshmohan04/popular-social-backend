@@ -108,7 +108,7 @@ Best for minimal disruption and gradual migration.
 
 ## 6) Data and storage modernization
 - Evolve current `posts` schema:
-  - Use proper timestamp types (ISO date) instead of plain string.
+  - Use proper timestamp types (ISO 8601 format) instead of plain string.
   - Add ownership fields, status/moderation fields, and metadata.
 - Consider media strategy:
   - Keep GridFS short-term, evaluate object storage (S3/GCS) for scale.
@@ -158,4 +158,3 @@ Best for minimal disruption and gradual migration.
 - Automated lint/test/security checks in CI.
 - Documented, versioned APIs consumable by modern frontend clients.
 - Observability and operational readiness in place.
-
