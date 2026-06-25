@@ -1,4 +1,5 @@
 import express from "express";
+import cookieParser from 'cookie-parser';
 import bodyParser from "body-parser";
 import { createV1Router } from "./routes/v1Routes.js";
 import { notFoundHandler, errorHandler } from "./middleware/errorHandler.js";
@@ -15,6 +16,7 @@ export function createApp({
 }) {
   const app = express();
 
+  app.use(cookieParser());
   app.use(bodyParser.json());
   applySecurityMiddleware(app, allowedOrigins);
 

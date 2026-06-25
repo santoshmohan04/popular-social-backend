@@ -6,10 +6,13 @@ import {
 import { getPosts, uploadPost } from "../controllers/postController.js";
 import { asyncHandler } from "../middleware/asyncHandler.js";
 import { validateBody } from "../middleware/validate.js";
+import authRoutes from './authRoutes.js';
 import { createPostSchema } from "../schemas/postSchema.js";
 
 export function createV1Router({ upload, getBucket, getFilesCollection }) {
   const router = express.Router();
+
+  router.use('/auth', authRoutes);
 
   router.get("/", (req, res) => {
     res.status(200).json({
